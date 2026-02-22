@@ -151,7 +151,7 @@ export default function OrderDetail() {
         <div className="rounded-lg border bg-card p-4 space-y-3">
           <h3 className="font-display font-semibold text-foreground">Paiement</h3>
           <DetailRow icon={<CreditCard className="h-4 w-4" />} label="Total" value={formatCurrency(order.totalAmount)} />
-          <DetailRow icon={<CreditCard className="h-4 w-4" />} label="Reçu" value={formatCurrency(order.receivedAmount)} />
+          <DetailRow icon={<CreditCard className="h-4 w-4" />} label="Reçu" value={formatCurrency(order.receivedAmount)}/>
           <div className="flex justify-between border-t pt-2">
             <span className="text-sm font-medium text-foreground">Restant</span>
             <span className={remaining > 0 ? "font-bold text-destructive" : "font-bold text-status-delivered"}>

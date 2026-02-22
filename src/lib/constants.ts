@@ -29,7 +29,7 @@ export const CATEGORY_EMOJI: Record<Category, string> = {
 export function formatCurrency(amount: number) {
   return new Intl.NumberFormat("fr-FR", {
     style: "currency",
-    currency: "XOF",
+    currency: "MGA",
     minimumFractionDigits: 0,
   }).format(amount);
 }
