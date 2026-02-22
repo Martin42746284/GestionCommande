@@ -192,7 +192,7 @@ export default function OrderForm() {
           <div className="flex justify-between text-sm">
             <span className="text-muted-foreground">Montant restant :</span>
             <span className={remaining > 0 ? "font-semibold text-destructive" : "font-semibold text-status-delivered"}>
-              {remaining.toLocaleString("fr-FR")} FCFA
+              {remaining.toLocaleString("fr-FR")} Ariary
             </span>
           </div>
         </div>
