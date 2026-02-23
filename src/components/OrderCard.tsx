@@ -1,6 +1,7 @@
 import { type Order } from "@/lib/db";
 import { StatusBadge } from "./StatusBadge";
 import { CATEGORY_EMOJI, formatCurrency, formatDate, daysUntil } from "@/lib/constants";
+import { calculateOrderTotal } from "@/lib/utils";
 import { useNavigate } from "react-router-dom";
 import { Clock, User } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -11,9 +12,14 @@ interface OrderCardProps {
 
 export function OrderCard({ order }: OrderCardProps) {
   const navigate = useNavigate();
-  const remaining = order.totalAmount - order.receivedAmount;
+  const totalAmount = calculateOrderTotal(order.items);
+  const remaining = totalAmount - order.receivedAmount;
   const days = daysUntil(order.deadlineDate);
   const isUrgent = days <= 1 && order.status !== "livre" && order.status !== "vendu";
+
+  // Get first item for display, or show article count
+  const firstItem = order.items[0];
+  const itemCount = order.items.length;
 
   return (
     <div
@@ -26,9 +32,10 @@ export function OrderCard({ order }: OrderCardProps) {
       <div className="flex items-start justify-between gap-2">
         <div className="min-w-0 flex-1">
           <div className="flex items-center gap-2">
-            <span className="text-lg">{CATEGORY_EMOJI[order.category]}</span>
+            {firstItem && <span className="text-lg">{CATEGORY_EMOJI[firstItem.category]}</span>}
             <h3 className="truncate font-display text-base font-semibold text-foreground">
-              {order.articleName}
+              {firstItem?.articleName || "Article"}
+              {itemCount > 1 && <span className="text-xs text-muted-foreground ml-2">+{itemCount - 1}</span>}
             </h3>
           </div>
           <div className="mt-1 flex items-center gap-2 text-sm text-muted-foreground">
@@ -50,7 +57,7 @@ export function OrderCard({ order }: OrderCardProps) {
           )}
         </div>
         <div className="text-right">
-          <span className="font-semibold text-foreground">{formatCurrency(order.totalAmount)}</span>
+          <span className="font-semibold text-foreground">{formatCurrency(totalAmount)}</span>
           {remaining > 0 && (
             <span className="ml-1 text-xs text-destructive">
               (-{formatCurrency(remaining)})

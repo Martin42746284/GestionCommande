@@ -13,8 +13,9 @@ export function useOrders(statusFilter?: OrderStatus, search?: string) {
       const q = search.toLowerCase();
       results = results.filter(
         (o) =>
-          o.articleName.toLowerCase().includes(q) ||
-          o.clientName.toLowerCase().includes(q)
+          o.items.some((item) =>
+            item.articleName.toLowerCase().includes(q)
+          ) || o.clientName.toLowerCase().includes(q)
       );
     }
     return results;
